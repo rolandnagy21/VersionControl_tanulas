@@ -34,7 +34,12 @@ namespace UserMaintenance
             //button2 beállítása
             button2.Text = Resource1.ExportButton;
             button2.Click += Button2_Click;
+
+            //button3
+            button3.Text = Resource1.Delete;
+            listBox1.SelectedIndexChanged += ListBox1_SelectedIndexChanged;
         }
+
 
 
         private void Button1_Click(object sender, EventArgs e)
@@ -73,6 +78,15 @@ namespace UserMaintenance
                 }
 
             }
+        }
+
+        private void Button3_Click(object sender, EventArgs e)
+        {
+            users.Remove((User)listBox1.SelectedItem);
+        }
+        private void ListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            button3.Click += Button3_Click;
         }
     }
 }
