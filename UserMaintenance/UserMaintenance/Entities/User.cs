@@ -9,15 +9,14 @@ namespace UserMaintenance.Entities
     internal class User
     {
         public Guid ID { get; set; } = Guid.NewGuid();
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        private string _fullname;
+
         public string FullName
         {
-            get { return string.Format("{0} {1}", LastName, FirstName); }
-            //.Format szintaxis új
-            //propfull-ból a private változó rész törlése, set ág törlése, majd get ág kibontása
-            //internal class helyett public class, vagy UserMaintenance.Entities névtér behivatkozása máshol?
+            get { return _fullname; }
+            set { _fullname = value; }
         }
+
 
     }
 }

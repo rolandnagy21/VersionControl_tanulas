@@ -19,14 +19,13 @@ namespace UserMaintenance
         {
             InitializeComponent();
             //design elemek beállítása
-            label1.Text = Resource1.Lastname;
-            label2.Text = Resource1.Firstname;
+            label1.Text = Resource1.Fullname;
             button1.Text = Resource1.Add;
 
             //listbox 1 beállítása
             listBox1.DataSource = users;
             listBox1.ValueMember = "ID";
-            listBox1.DisplayMember = "FullName";
+            listBox1.DisplayMember = "Fullname";
 
             //button1 beállítása
             button1.Click += Button1_Click;
@@ -42,8 +41,7 @@ namespace UserMaintenance
             // };
 
             User NewUser = new User();
-            NewUser.LastName = textBox1.Text;
-            NewUser.FirstName = textBox2.Text;
+            NewUser.FullName = textBox1.Text;
 
             users.Add(NewUser);
         }
