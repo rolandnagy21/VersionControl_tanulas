@@ -144,6 +144,18 @@ namespace gyak4_WEYEWU
             //.Value2 = $"= 1000000 * xlSheet.get_Range(GetCell(2, adatok.GetLength(1) - 1), GetCell(1 + adatok.GetLength(0), adatok.GetLength(1) - 1)).Value2/xlSheet.get_Range(GetCell(2, adatok.GetLength(1) - 2), GetCell(1 + adatok.GetLength(0), adatok.GetLength(1) - 2)).Value2";
             .Value2 = $"= 1000000 * {H2}:{Hvége}/{G2}:{Gvége}";
             //= 1000000 * H2:H105 / G2:G105
+
+            Excel.Range fejlécTartomány = xlSheet.get_Range(GetCell(1, 1), GetCell(1, fejlécek.Length));
+            fejlécTartomány.Font.Bold = true;
+            fejlécTartomány.VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
+            fejlécTartomány.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            fejlécTartomány.EntireColumn.AutoFit();
+            fejlécTartomány.RowHeight = 40;
+            fejlécTartomány.Interior.Color = Color.LightBlue;
+            fejlécTartomány.BorderAround2(Excel.XlLineStyle.xlContinuous, Excel.XlBorderWeight.xlThick);
+
+            Excel.Range egésztáblaTartomány = xlSheet.get_Range(GetCell(1, 1), GetCell(xlSheet.UsedRange.Rows.Count, adatok.GetLength(1)));
+            egésztáblaTartomány.BorderAround2(Excel.XlLineStyle.xlContinuous, Excel.XlBorderWeight.xlThick);
         }
 
         private string GetCell(int x, int y)
