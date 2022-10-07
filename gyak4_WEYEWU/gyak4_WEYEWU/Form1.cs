@@ -120,10 +120,32 @@ namespace gyak4_WEYEWU
             }
 
             xlSheet.get_Range(
-              GetCell(2, 1), //GetCell(2,1)
-              GetCell(1 + adatok.GetLength(0), adatok.GetLength(1))) //GetCell(1 + 104, 9)
+              GetCell(2, 1), //GetCell(2,1) = "A2"
+              GetCell(1 + adatok.GetLength(0), adatok.GetLength(1))) //GetCell(1 + 104, 9) = "I105"
               .Value2 = adatok;
+
+            //utolsó, számított oszlop
+            //segédváltozók
+            //var HoszlopÉrtékTart = xlSheet.get_Range(GetCell(2, adatok.GetLength(1) - 1), GetCell(1 + adatok.GetLength(0), adatok.GetLength(1) - 1));
+            //var GoszlopÉrtékTart = xlSheet.get_Range(GetCell(2, adatok.GetLength(1) - 2), GetCell(1 + adatok.GetLength(0), adatok.GetLength(1) - 2));
+
+            //for (int i = 1; i <= adatok.GetLength(1); i++)
+            //{
+            //    var SzámítottOszlop[i,1] = HoszlopÉrtékTart[i,1] / GoszlopÉrtékTart[i,1];
+            //}
+
+            var H2 = GetCell(2, adatok.GetLength(1) - 1);
+            var Hvége = GetCell(1 + adatok.GetLength(0), adatok.GetLength(1) - 1);
+            var G2 = GetCell(2, adatok.GetLength(1) - 2);
+            var Gvége = GetCell(1 + adatok.GetLength(0), adatok.GetLength(1) - 2);
+
+            //utolsó oszlop
+            xlSheet.get_Range(GetCell(2, adatok.GetLength(1)), GetCell(1 + adatok.GetLength(0), adatok.GetLength(1)))
+            //.Value2 = $"= 1000000 * xlSheet.get_Range(GetCell(2, adatok.GetLength(1) - 1), GetCell(1 + adatok.GetLength(0), adatok.GetLength(1) - 1)).Value2/xlSheet.get_Range(GetCell(2, adatok.GetLength(1) - 2), GetCell(1 + adatok.GetLength(0), adatok.GetLength(1) - 2)).Value2";
+            .Value2 = $"= 1000000 * {H2}:{Hvége}/{G2}:{Gvége}";
+            //= 1000000 * H2:H105 / G2:G105
         }
+
         private string GetCell(int x, int y)
         {
             string ExcelCoordinate = "";
