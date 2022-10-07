@@ -156,6 +156,9 @@ namespace gyak4_WEYEWU
 
             Excel.Range egésztáblaTartomány = xlSheet.get_Range(GetCell(1, 1), GetCell(xlSheet.UsedRange.Rows.Count, adatok.GetLength(1)));
             egésztáblaTartomány.BorderAround2(Excel.XlLineStyle.xlContinuous, Excel.XlBorderWeight.xlThick);
+
+            Excel.Range utolsóOszlopTartomány = xlSheet.get_Range(GetCell(1, adatok.GetLength(1)), GetCell(xlSheet.UsedRange.Rows.Count, adatok.GetLength(1)));
+            utolsóOszlopTartomány.Interior.Color = Color.LightGreen;
         }
 
         private string GetCell(int x, int y)
