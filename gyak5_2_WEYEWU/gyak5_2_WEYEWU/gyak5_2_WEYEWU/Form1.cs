@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Xml;
 using gyak5_2_WEYEWU.MnbServiceReference;
 using gyak5_2_WEYEWU.Entities;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace gyak5_2_WEYEWU
 {
@@ -20,9 +21,11 @@ namespace gyak5_2_WEYEWU
             InitializeComponent();
             euroArf_adatok_2020_1();
             XMLfeldolgozás(euroArf_adatok_2020_1());
+            Vizualizacio();
 
             dataGridView1.DataSource = Rates;
         }
+
 
         BindingList<RateData> Rates = new BindingList<RateData>();
 
@@ -101,6 +104,29 @@ namespace gyak5_2_WEYEWU
                 //    rate.Value = value / unit;
             //}
 
-        }        
+        }
+        private void Vizualizacio()
+        {
+            chart1.Name = "chartRateData";
+            chart1.DataSource = Rates;
+
+            // A Chart több adatsor megjelenítésére alkalmas. A Series tulajdonsága egy adatsorokból álló tömb,
+            // ami alapértelmezetten egy elemű.A tömb első elemét érdemes lekérdezni egy változóba,
+            // hogy könnyebb legyen átírni a tulajdonságait.
+            var series_adatsor = chart1.Series[0];
+            series_adatsor.ChartType = SeriesChartType.Line;
+            series_adatsor.XValueMember = "Date";
+            series_adatsor.YValueMembers = "Value";
+            series_adatsor.BorderWidth = 2;
+
+            var jelmagyarázat = chart1.Legends[0];
+            jelmagyarázat.Enabled = false;
+
+            var chartArea1 = chart1.ChartAreas[0];
+            chartArea1.AxisX.MajorGrid.Enabled = false;
+            chartArea1.AxisY.MajorGrid.Enabled = false;
+            chartArea1.AxisY.IsStartedFromZero = false;
+        }
+
     }
 }
