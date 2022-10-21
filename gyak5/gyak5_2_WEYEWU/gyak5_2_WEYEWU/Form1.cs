@@ -15,6 +15,7 @@ namespace gyak5_2_WEYEWU
         public Form1()
         {
             InitializeComponent();
+            //sssd
         }
     }
 }
