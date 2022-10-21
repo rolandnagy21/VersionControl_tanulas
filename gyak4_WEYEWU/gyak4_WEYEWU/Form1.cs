@@ -51,8 +51,8 @@ namespace gyak4_WEYEWU
                 xlSheet = xlWB.ActiveSheet;
                 // Új munkalap létrehozása
 
-                CreateTable();
-                // Tábla létrehozása
+                Filltable();
+                // Tábla feltöltése
 
                 xlApp.Visible = true;
                 xlApp.UserControl = true;
@@ -72,7 +72,7 @@ namespace gyak4_WEYEWU
             }
         }
 
-        void CreateTable()
+        void Filltable()
         {
             string[] fejlécek = new string[]
             {
@@ -86,6 +86,8 @@ namespace gyak4_WEYEWU
                 "Ár (mFt)",
                 "Négyzetméter ár (Ft/m2)"
             };
+
+            MessageBox.Show(Convert.ToString(Flats.Count), Convert.ToString(fejlécek.Length));
 
             for (int i = 0; i < fejlécek.Length; i++)
             {
@@ -139,12 +141,20 @@ namespace gyak4_WEYEWU
             var G2 = GetCell(2, adatok.GetLength(1) - 2);
             var Gvége = GetCell(1 + adatok.GetLength(0), adatok.GetLength(1) - 2);
 
+            MessageBox.Show(Convert.ToString(adatok.GetLength(1)));
+            MessageBox.Show(Convert.ToString(adatok.GetLength(0)));
+            MessageBox.Show(Convert.ToString(sor));
             //utolsó oszlop
             xlSheet.get_Range(GetCell(2, adatok.GetLength(1)), GetCell(1 + adatok.GetLength(0), adatok.GetLength(1)))
+
             //.Value2 = $"= 1000000 * xlSheet.get_Range(GetCell(2, adatok.GetLength(1) - 1), GetCell(1 + adatok.GetLength(0), adatok.GetLength(1) - 1)).Value2/xlSheet.get_Range(GetCell(2, adatok.GetLength(1) - 2), GetCell(1 + adatok.GetLength(0), adatok.GetLength(1) - 2)).Value2";
             .Value2 = $"= 1000000 * {H2}:{Hvége}/{G2}:{Gvége}";
             //= 1000000 * H2:H105 / G2:G105
 
+            for (int i = 1; i <= Flats.Count; i++)
+            {
+               xlSheet.Cells[i+1, 9] = $"= 1000000 * H{i+1}/G{i+1}";
+            }
             Excel.Range fejlécTartomány = xlSheet.get_Range(GetCell(1, 1), GetCell(1, fejlécek.Length));
             fejlécTartomány.Font.Bold = true;
             fejlécTartomány.VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
@@ -154,11 +164,13 @@ namespace gyak4_WEYEWU
             fejlécTartomány.Interior.Color = Color.LightBlue;
             fejlécTartomány.BorderAround2(Excel.XlLineStyle.xlContinuous, Excel.XlBorderWeight.xlThick);
 
-            Excel.Range egésztáblaTartomány = xlSheet.get_Range(GetCell(1, 1), GetCell(xlSheet.UsedRange.Rows.Count, adatok.GetLength(1)));
+            Excel.Range egésztáblaTartomány = xlSheet.get_Range(GetCell(1, 1), GetCell(xlSheet.UsedRange.Rows.Count, xlSheet.UsedRange.Columns.Count));
             egésztáblaTartomány.BorderAround2(Excel.XlLineStyle.xlContinuous, Excel.XlBorderWeight.xlThick);
 
-            Excel.Range utolsóOszlopTartomány = xlSheet.get_Range(GetCell(1, adatok.GetLength(1)), GetCell(xlSheet.UsedRange.Rows.Count, adatok.GetLength(1)));
+            Excel.Range utolsóOszlopTartomány = xlSheet.get_Range(GetCell(1, adatok.GetLength(1)), GetCell(xlSheet.UsedRange.Rows.Count -1, adatok.GetLength(1)));
             utolsóOszlopTartomány.Interior.Color = Color.LightGreen;
+
+            xlSheet.get_Range("C1", $"C{xlSheet.UsedRange.Rows.Count -1}").Interior.Color = Color.LightGreen;
         }
 
         private string GetCell(int x, int y)
@@ -169,7 +181,7 @@ namespace gyak4_WEYEWU
 
             while (dividend > 0)
             {
-                //kommentben: GetCell(2,1), GetCell(1 + 104, 9)
+                //kommentben: GetCell(2, 1), GetCell(1 + 104, 9)
 
                 modulo = (dividend - 1) % 26; //0, 8
                 ExcelCoordinate = Convert.ToChar(65 + modulo).ToString() + ExcelCoordinate; //"A", "I"
