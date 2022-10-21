@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using gyak5_2_WEYEWU.MnbServiceReference;
+using gyak5_2_WEYEWU.Entities;
 
 namespace gyak5_2_WEYEWU
 {
@@ -18,6 +19,9 @@ namespace gyak5_2_WEYEWU
         {
             InitializeComponent();
             euroArf_2020_1();
+
+            dataGridView1.DataSource = Rates;
+
         }
 
         private void euroArf_2020_1()
@@ -43,5 +47,9 @@ namespace gyak5_2_WEYEWU
             xdoc.LoadXml(result);
             xdoc.Save("proba.xml");
         }
+
+        BindingList<RateData> Rates = new BindingList<RateData>();
+        
+       
     }
 }
