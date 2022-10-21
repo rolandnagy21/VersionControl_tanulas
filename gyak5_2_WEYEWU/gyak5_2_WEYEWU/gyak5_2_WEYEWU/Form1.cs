@@ -20,25 +20,27 @@ namespace gyak5_2_WEYEWU
         {
             InitializeComponent();
 
-            comboBox1.SelectedItem = "USD";
+            GetPénznemek();
+            PénznemekXMLFeldolgozás(GetPénznemek());
+            comboBox1.DataSource = Currencies;
+            comboBox1.SelectedIndex = 2;
+
             RefreshData();
         }
+
+        BindingList<RateData> Rates = new BindingList<RateData>();
+        BindingList<string> Currencies = new BindingList<string>(); 
 
         private void RefreshData()
         {
             Rates.Clear();
-
-            euroArf_adatok_2020_1();
-            XMLfeldolgozás(euroArf_adatok_2020_1());
-            Vizualizacio();
-
+            GetÁrfolyamok();
+            ÁrfolyamokXMLfeldolgozás(GetÁrfolyamok());
             dataGridView1.DataSource = Rates;
+            Vizualizacio();
         }
 
-        BindingList<RateData> Rates = new BindingList<RateData>();
-
-
-        private string euroArf_adatok_2020_1()
+        private string GetÁrfolyamok()
         {
             MNBArfolyamServiceSoapClient mnbService = new MNBArfolyamServiceSoapClient();
 
@@ -49,7 +51,7 @@ namespace gyak5_2_WEYEWU
                 endDate = Convert.ToString(dateTimePicker3.Value)
             };
 
-            var response = mnbService.GetExchangeRates(request);
+            GetExchangeRatesResponseBody response = mnbService.GetExchangeRates(request);
             // Ebben az esetben a "var" a GetExchangeRates visszatérési értékéből kapja a típusát.
             // Ezért a response változó valójában GetExchangeRatesResponseBody típusú.
 
@@ -63,7 +65,7 @@ namespace gyak5_2_WEYEWU
             return result;
         }
 
-        private void XMLfeldolgozás(string result2)
+        private void ÁrfolyamokXMLfeldolgozás(string result2)
         {
             // XML document létrehozása és az aktuális XML szöveg betöltése
             XmlDocument xml = new XmlDocument();
@@ -74,17 +76,22 @@ namespace gyak5_2_WEYEWU
                 //string dátum = elem.GetAttribute("date");
                 //XmlElement valuta = (XmlElement)elem.ChildNodes[0]; //alapból a ChildNodes property egy XmlNode elemekből álló tömb
                                                                     //cast, hogy a GetAttribute függvény elérhető legyen 
-                
+              
+                if (elem.ChildNodes[0] == null) continue;
+
                 RateData RateAdat = new RateData()
                 {
                     Date = DateTime.Parse(elem.GetAttribute("date")),
                     Currency = ((XmlElement)elem.ChildNodes[0]).GetAttribute("curr")
                 };
+
+
                 if (((XmlElement)elem.ChildNodes[0]).GetAttribute("unit") != "0")
                 {
                     RateAdat.Value = decimal.Parse(elem.ChildNodes[0].InnerText) /
                                 decimal.Parse(((XmlElement)elem.ChildNodes[0]).GetAttribute("unit"));
                 }
+
                 Rates.Add(RateAdat);
             }
 
@@ -147,6 +154,39 @@ namespace gyak5_2_WEYEWU
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             RefreshData();
+        }
+
+        private string GetPénznemek()
+        {
+            MNBArfolyamServiceSoapClient mnbService = new MNBArfolyamServiceSoapClient();
+
+            GetCurrenciesRequestBody request = new GetCurrenciesRequestBody();
+
+            GetCurrenciesResponseBody response = mnbService.GetCurrencies(request);
+
+            string result = response.GetCurrenciesResult;
+
+            Console.WriteLine(result);
+
+            XmlDocument xdoc = new XmlDocument();
+            xdoc.LoadXml(result);
+            xdoc.Save("proba2.xml");
+
+            return result;
+        }
+
+        private void PénznemekXMLFeldolgozás(string result2)
+        {
+            // XML document létrehozása és az aktuális XML szöveg betöltése
+            XmlDocument xml = new XmlDocument();
+            xml.LoadXml(result2);
+
+            foreach (XmlNode elem in xml.DocumentElement["Currencies"].ChildNodes) //XmlElement típus fontos
+            {
+                string EgyPénznem = elem.InnerText;
+
+                Currencies.Add(EgyPénznem);
+            }
         }
     }
 }

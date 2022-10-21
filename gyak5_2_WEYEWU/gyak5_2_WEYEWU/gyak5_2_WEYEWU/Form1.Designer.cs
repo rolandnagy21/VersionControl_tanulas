@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea11 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend11 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series11 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
@@ -55,16 +55,16 @@
             // chart1
             // 
             this.chart1.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.TopRight;
-            chartArea6.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea6);
-            legend6.Name = "Legend1";
-            this.chart1.Legends.Add(legend6);
+            chartArea11.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea11);
+            legend11.Name = "Legend1";
+            this.chart1.Legends.Add(legend11);
             this.chart1.Location = new System.Drawing.Point(621, 60);
             this.chart1.Name = "chart1";
-            series6.ChartArea = "ChartArea1";
-            series6.Legend = "Legend1";
-            series6.Name = "Series1";
-            this.chart1.Series.Add(series6);
+            series11.ChartArea = "ChartArea1";
+            series11.Legend = "Legend1";
+            series11.Name = "Series1";
+            this.chart1.Series.Add(series11);
             this.chart1.Size = new System.Drawing.Size(1100, 870);
             this.chart1.TabIndex = 2;
             this.chart1.Text = "chart1";
@@ -73,12 +73,86 @@
             // 
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
+            "HUF",
             "EUR",
-            "USD"});
+            "AUD",
+            "BGN",
+            "BRL",
+            "CAD",
+            "CHF",
+            "CNY",
+            "CZK",
+            "DKK",
+            "GBP",
+            "HKD",
+            "HRK",
+            "IDR",
+            "ILS",
+            "INR",
+            "ISK",
+            "JPY",
+            "KRW",
+            "MXN",
+            "MYR",
+            "NOK",
+            "NZD",
+            "PHP",
+            "PLN",
+            "RON",
+            "RSD",
+            "RUB",
+            "SEK",
+            "SGD",
+            "THB",
+            "TRY",
+            "UAH",
+            "USD",
+            "ZAR",
+            "ATS",
+            "AUP",
+            "BEF",
+            "BGL",
+            "CSD",
+            "CSK",
+            "DDM",
+            "DEM",
+            "EEK",
+            "EGP",
+            "ESP",
+            "FIM",
+            "FRF",
+            "GHP",
+            "GRD",
+            "IEP",
+            "ITL",
+            "KPW",
+            "KWD",
+            "LBP",
+            "LTL",
+            "LUF",
+            "LVL",
+            "MNT",
+            "NLG",
+            "OAL",
+            "OBL",
+            "OFR",
+            "ORB",
+            "PKR",
+            "PTE",
+            "ROL",
+            "SDP",
+            "SIT",
+            "SKK",
+            "SUR",
+            "VND",
+            "XEU",
+            "XTR",
+            "YUD"});
             this.comboBox1.Location = new System.Drawing.Point(494, 30);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 24);
             this.comboBox1.TabIndex = 6;
+            this.comboBox1.TabStop = false;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // dateTimePicker3
