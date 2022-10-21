@@ -18,13 +18,16 @@ namespace gyak5_2_WEYEWU
         public Form1()
         {
             InitializeComponent();
-            euroArf_2020_1();
+            euroArf_adatok_2020_1();
+            XMLfeldolgozás(euroArf_adatok_2020_1());
 
             dataGridView1.DataSource = Rates;
-
         }
 
-        private void euroArf_2020_1()
+        BindingList<RateData> Rates = new BindingList<RateData>();
+
+
+        private string euroArf_adatok_2020_1()
         {
             MNBArfolyamServiceSoapClient mnbService = new MNBArfolyamServiceSoapClient();
 
@@ -46,10 +49,58 @@ namespace gyak5_2_WEYEWU
             XmlDocument xdoc = new XmlDocument();
             xdoc.LoadXml(result);
             xdoc.Save("proba.xml");
+            return result;
         }
 
-        BindingList<RateData> Rates = new BindingList<RateData>();
-        
-       
+
+
+        private void XMLfeldolgozás(string result2)
+        {
+            // XML document létrehozása és az aktuális XML szöveg betöltése
+            XmlDocument xml = new XmlDocument();
+            xml.LoadXml(result2);
+
+            foreach (XmlElement elem in xml.DocumentElement) //XmlElement típus fontos
+            {
+                //string dátum = elem.GetAttribute("date");
+                //XmlElement valuta = (XmlElement)elem.ChildNodes[0]; //alapból a ChildNodes property egy XmlNode elemekből álló tömb
+                                                                    //cast, hogy a GetAttribute függvény elérhető legyen 
+                
+                RateData RateAdat = new RateData()
+                {
+                    Date = DateTime.Parse(elem.GetAttribute("date")),
+                    Currency = ((XmlElement)elem.ChildNodes[0]).GetAttribute("curr")
+                };
+                if (((XmlElement)elem.ChildNodes[0]).GetAttribute("unit") != "0")
+                {
+                    RateAdat.Value = decimal.Parse(elem.ChildNodes[0].InnerText) /
+                                decimal.Parse(((XmlElement)elem.ChildNodes[0]).GetAttribute("unit"));
+                }
+                Rates.Add(RateAdat);
+            }
+
+            // Végigmegünk a dokumentum fő elemének gyermekein
+            //foreach (XmlElement element in xml.DocumentElement)
+            //{
+                // Létrehozzuk az adatsort és rögtön hozzáadjuk a listához
+                // Mivel ez egy referencia típusú változó, megtehetjük, hogy előbb adjuk a listához és csak később töltjük fel a tulajdonságait
+                //var rate = new RateData();
+                //Rates.Add(rate);
+
+                // Dátum
+                //rate.Date = DateTime.Parse(element.GetAttribute("date"));
+
+                // Valuta
+                //var childElement = (XmlElement)element.ChildNodes[0];
+                //rate.Currency = childElement.GetAttribute("curr");
+
+                // Érték
+                //var unit = decimal.Parse(childElement.GetAttribute("unit"));
+                //var value = decimal.Parse(childElement.InnerText);
+                //if (unit != 0)
+                //    rate.Value = value / unit;
+            //}
+
+        }        
     }
 }
