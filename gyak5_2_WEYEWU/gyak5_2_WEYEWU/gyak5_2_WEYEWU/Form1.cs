@@ -19,13 +19,21 @@ namespace gyak5_2_WEYEWU
         public Form1()
         {
             InitializeComponent();
+
+            comboBox1.SelectedItem = "USD";
+            RefreshData();
+        }
+
+        private void RefreshData()
+        {
+            Rates.Clear();
+
             euroArf_adatok_2020_1();
             XMLfeldolgozás(euroArf_adatok_2020_1());
             Vizualizacio();
 
             dataGridView1.DataSource = Rates;
         }
-
 
         BindingList<RateData> Rates = new BindingList<RateData>();
 
@@ -36,9 +44,9 @@ namespace gyak5_2_WEYEWU
 
             GetExchangeRatesRequestBody request = new GetExchangeRatesRequestBody()
             {
-                currencyNames = "EUR",
-                startDate = "2020-01-01",
-                endDate = "2020-06-30"
+                currencyNames = Convert.ToString(comboBox1.SelectedItem),
+                startDate = Convert.ToString(dateTimePicker2.Value),
+                endDate = Convert.ToString(dateTimePicker3.Value)
             };
 
             var response = mnbService.GetExchangeRates(request);
@@ -54,8 +62,6 @@ namespace gyak5_2_WEYEWU
             xdoc.Save("proba.xml");
             return result;
         }
-
-
 
         private void XMLfeldolgozás(string result2)
         {
@@ -128,5 +134,19 @@ namespace gyak5_2_WEYEWU
             chartArea1.AxisY.IsStartedFromZero = false;
         }
 
+        private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
+        {
+            RefreshData();
+        }
+
+        private void dateTimePicker3_ValueChanged(object sender, EventArgs e)
+        {
+            RefreshData();
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshData();
+        }
     }
 }
