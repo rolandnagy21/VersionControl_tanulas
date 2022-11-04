@@ -9,7 +9,7 @@ using gyak6_WEYEWU.Abstractions;
 
 namespace gyak6_WEYEWU.Entities
 {
-    internal class Ball : Toy
+    public class Ball : Toy
     {
         protected override void DrawImage(Graphics g)
         {
