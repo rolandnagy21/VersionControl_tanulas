@@ -14,7 +14,7 @@ namespace gyak6_WEYEWU
 {
     public partial class Form1 : Form
     {
-        private List<Ball> _toys = new List<Ball>();
+        private List<Toy> _toys = new List<Toy>();
 
         private IToyFactory _factory;
         public IToyFactory Factory
@@ -27,38 +27,38 @@ namespace gyak6_WEYEWU
         {
             InitializeComponent();
 
-            Factory = new BallFactory();
+            Factory = new CarFactory();
         }
 
         private void createTimer_Tick(object sender, EventArgs e)
         {
-            Toy ball = Factory.CreateNew();
+            Toy toy = Factory.CreateNew();
 
-            _toys.Add(ball);
+            _toys.Add(toy);
 
-            ball.Left = -ball.Width;
+            toy.Left = -toy.Width;
 
-            mainPanel1.Controls.Add(ball);
+            mainPanel1.Controls.Add(toy);
         }
 
         private void conveyorTimer_Tick(object sender, EventArgs e)
         {
             var maxPozíció = 0;
 
-            foreach (var ball in _toys)
+            foreach (var toy in _toys)
             {
-                ball.MoveBall();
+                toy.MoveToy();
 
-                if (ball.Left > maxPozíció)
-                    maxPozíció = ball.Left;
+                if (toy.Left > maxPozíció)
+                    maxPozíció = toy.Left;
             }
 
             if (maxPozíció > 1000)
             {
-                var oldestBall = _toys[0];
+                var TörlendőItem = _toys[0];
 
-                mainPanel1.Controls.Remove(oldestBall);
-                _toys.Remove(oldestBall);
+                mainPanel1.Controls.Remove(TörlendőItem);
+                _toys.Remove(TörlendőItem);
             }
         }
     }
