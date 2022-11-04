@@ -1,4 +1,5 @@
-﻿using gyak6_WEYEWU.Entities;
+﻿using gyak6_WEYEWU.Abstractions;
+using gyak6_WEYEWU.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,10 +14,10 @@ namespace gyak6_WEYEWU
 {
     public partial class Form1 : Form
     {
-        private List<Ball> _balls = new List<Ball>();
+        private List<Ball> _toys = new List<Ball>();
 
-        private BallFactory _factory;
-        public BallFactory Factory
+        private IToyFactory _factory;
+        public IToyFactory Factory
         {
             get { return _factory; }
             set { _factory = value; }
@@ -31,9 +32,9 @@ namespace gyak6_WEYEWU
 
         private void createTimer_Tick(object sender, EventArgs e)
         {
-            Ball ball = Factory.CreateNew();
+            Toy ball = Factory.CreateNew();
 
-            _balls.Add(ball);
+            _toys.Add(ball);
 
             ball.Left = -ball.Width;
 
@@ -44,7 +45,7 @@ namespace gyak6_WEYEWU
         {
             var maxPozíció = 0;
 
-            foreach (var ball in _balls)
+            foreach (var ball in _toys)
             {
                 ball.MoveBall();
 
@@ -54,10 +55,10 @@ namespace gyak6_WEYEWU
 
             if (maxPozíció > 1000)
             {
-                var oldestBall = _balls[0];
+                var oldestBall = _toys[0];
 
                 mainPanel1.Controls.Remove(oldestBall);
-                _balls.Remove(oldestBall);
+                _toys.Remove(oldestBall);
             }
         }
     }
