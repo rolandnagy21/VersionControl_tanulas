@@ -29,7 +29,6 @@ namespace gyak6_WEYEWU
 
         private Toy _nextToy;
 
-
         public Form1()
         {
             InitializeComponent();
@@ -39,28 +38,28 @@ namespace gyak6_WEYEWU
 
         private void createTimer_Tick(object sender, EventArgs e)
         {
-            Toy toy = Factory.CreateNew();
+            var toy = Factory.CreateNew();
 
             _toys.Add(toy);
 
-            toy.Left = -toy.Width;
+            toy.Left = -toy.Left;
 
             mainPanel1.Controls.Add(toy);
         }
 
         private void conveyorTimer_Tick(object sender, EventArgs e)
         {
-            var maxPozíció = 0;
+            var maxPoz = 0;
 
-            foreach (var toy in _toys)
+            foreach (var t in _toys)
             {
-                toy.MoveToy();
+                t.MoveToy();
 
-                if (toy.Left > maxPozíció)
-                    maxPozíció = toy.Left;
+                if (t.Left > maxPoz)
+                    maxPoz = t.Left;
             }
 
-            if (maxPozíció > 1000)
+            if (maxPoz > 1000)
             {
                 var TörlendőItem = _toys[0];
 
@@ -81,12 +80,30 @@ namespace gyak6_WEYEWU
 
         private void DisplayNext()
         {
-            if (_nextToy != null)
-                Controls.Remove(_nextToy);
+            if (_nextToy != null) Controls.Remove(_nextToy);
+
             _nextToy = Factory.CreateNew();
-            _nextToy.Top = label1.Top + label1.Height + 9;
+
+            _nextToy.Top = label1.Top + label1.Height + 5;
+
             _nextToy.Left = label1.Left;
+
             Controls.Add(_nextToy);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+                var button = (Button)sender;
+
+                var colorPicker = new ColorDialog();
+
+                colorPicker.Color = button.BackColor;
+
+                if (colorPicker.ShowDialog() != DialogResult.OK)
+                    return;
+
+                button.BackColor = colorPicker.Color;
+            
         }
     }
 }
