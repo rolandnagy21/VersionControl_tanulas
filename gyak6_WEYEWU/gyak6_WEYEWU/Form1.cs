@@ -20,8 +20,15 @@ namespace gyak6_WEYEWU
         public IToyFactory Factory
         {
             get { return _factory; }
-            set { _factory = value; }
+            set { 
+                _factory = value;
+                DisplayNext();
+                }
+
         }
+
+        private Toy _nextToy;
+
 
         public Form1()
         {
@@ -60,6 +67,26 @@ namespace gyak6_WEYEWU
                 mainPanel1.Controls.Remove(TörlendőItem);
                 _toys.Remove(TörlendőItem);
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Factory = new CarFactory();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Factory = new BallFactory();
+        }
+
+        private void DisplayNext()
+        {
+            if (_nextToy != null)
+                Controls.Remove(_nextToy);
+            _nextToy = Factory.CreateNew();
+            _nextToy.Top = label1.Top + label1.Height + 9;
+            _nextToy.Left = label1.Left;
+            Controls.Add(_nextToy);
         }
     }
 }
