@@ -48,9 +48,20 @@ namespace UnitTestExample.Controllers
                 @"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
         }
 
-        public bool ValidatePassword(string password)
-        {
-            return true;
+            public bool ValidatePassword(string password)
+            {
+                if (Regex.IsMatch(
+                    password,
+                    "^(?=.*[0 - 9])(?=.*[a - z])(?=.*[A - Z]).{ 8,32}$"))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            
         }
     }
 }
